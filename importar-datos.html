@@ -1,1 +1,118 @@
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Importar datos — Mis Gastos</title>
+<style>
+  body { background:#0c0c0d; color:#f0ede8; font-family:'DM Sans',system-ui,sans-serif; display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:100vh; margin:0; padding:20px; box-sizing:border-box; }
+  .box { background:#141416; border:1px solid #222226; border-radius:16px; padding:32px 24px; max-width:400px; width:100%; text-align:center; }
+  h2 { font-size:20px; font-weight:700; margin-bottom:8px; }
+  p  { font-size:13px; color:#55555f; line-height:1.7; margin-bottom:24px; }
+  .btn { width:100%; padding:16px; border-radius:12px; border:none; background:#d4a843; color:#0c0c0d; font-size:15px; font-weight:700; cursor:pointer; font-family:inherit; }
+  .btn:disabled { background:#2a2a30; color:#55555f; cursor:default; }
+  .status { margin-top:16px; font-size:13px; color:#52c98a; min-height:20px; }
+  .err { color:#e05555; }
+</style>
+</head>
+<body>
+<div class="box">
+  <h2>📥 Importar datos</h2>
+  <p>Carga tu historial de gastos (abril y mayo 2026) en este dispositivo. Ábrelo en el mismo navegador donde uses gastos.html.</p>
+  <button class="btn" onclick="importar()">Importar datos</button>
+  <div class="status" id="status"></div>
+</div>
+<script>
+function importar() {
+  var btn=document.querySelector('.btn');
+  var st=document.getElementById('status');
+  btn.disabled=true;
+  btn.textContent='Importando…';
+  try {
+    var gastos=[
+      {id:20260509001,amount:15.19,category:'imprevistos',note:'Funda protectora iPhone',date:'2026-05-09'},
+      {id:20260509002,amount:12.00,category:'ocio',note:'Picoteo velatorio',date:'2026-05-09'},
+      {id:20260508001,amount:30.00,category:'recurrentes',note:'Gasolina',date:'2026-05-08'},
+      {id:20260508002,amount:15.00,category:'imprevistos',note:'Protector móvil',date:'2026-05-08'},
+      {id:20260507001,amount:14.80,category:'ocio',note:'',date:'2026-05-07'},
+      {id:20260506001,amount:9.73,category:'alimentacion',note:'',date:'2026-05-06'},
+      {id:20260505001,amount:40.00,category:'recurrentes',note:'Gym',date:'2026-05-05'},
+      {id:20260505002,amount:17.91,category:'imprevistos',note:'Cámaras bici',date:'2026-05-05'},
+      {id:20260504001,amount:39.08,category:'alimentacion',note:'',date:'2026-05-04'},
+      {id:20260504002,amount:3.50,category:'imprevistos',note:'Alicates',date:'2026-05-04'},
+      {id:20260504003,amount:15.00,category:'recurrentes',note:'Peluquería',date:'2026-05-04'},
+      {id:20260503001,amount:11.00,category:'ocio',note:'Bocata Via Verda',date:'2026-05-03'},
+      {id:20260503002,amount:13.20,category:'ocio',note:'Bici excursión Vida Verda',date:'2026-05-03'},
+      {id:20260502001,amount:27.75,category:'alimentacion',note:'',date:'2026-05-02'},
+      {id:20260502002,amount:8.90,category:'imprevistos',note:'Fusibles coche',date:'2026-05-02'},
+      {id:20260502003,amount:9.23,category:'imprevistos',note:'Cable dp to usb',date:'2026-05-02'},
+      {id:20260501001,amount:33.00,category:'ocio',note:'Restaurante',date:'2026-05-01'},
+      {id:20260501002,amount:2.50,category:'ocio',note:'Cerveza Gigi después correr',date:'2026-05-01'},
+      {id:20260501003,amount:24.81,category:'alimentacion',note:'',date:'2026-05-01'},
+      {id:20260430001,amount:3.78,category:'alimentacion',note:'',date:'2026-04-30'},
+      {id:20260430002,amount:9.90,category:'imprevistos',note:'Cable USB 144mh para monitor',date:'2026-04-30'},
+      {id:20260429001,amount:45.00,category:'recurrentes',note:'Masaje',date:'2026-04-29'},
+      {id:20260428001,amount:6.55,category:'alimentacion',note:'',date:'2026-04-28'},
+      {id:20260427001,amount:28.77,category:'alimentacion',note:'',date:'2026-04-27'},
+      {id:20260426001,amount:20.00,category:'ocio',note:'Cafés familia Rocío, paella',date:'2026-04-26'},
+      {id:20260425001,amount:8.00,category:'alimentacion',note:'Coca Can Cendra',date:'2026-04-25'},
+      {id:20260424001,amount:20.00,category:'recurrentes',note:'Gasolina',date:'2026-04-24'},
+      {id:20260424002,amount:12.00,category:'ocio',note:'Comer con compañeros trabajo',date:'2026-04-24'},
+      {id:20260423001,amount:9.00,category:'ocio',note:'Comprar rosa Rocío',date:'2026-04-23'},
+      {id:20260423002,amount:19.00,category:'alimentacion',note:'',date:'2026-04-23'},
+      {id:20260423003,amount:1.77,category:'alimentacion',note:'🥐',date:'2026-04-23'},
+      {id:20260422001,amount:63.00,category:'recurrentes',note:'Eucerin Sun Gel Crema Oil Control FPS 50+ — 13,03€ CeraVe Skin Renewing Retinol Serum — 31,55€ CeraVe Limpiador facial hidratante (473 ml) — 18,50€',date:'2026-04-22'},
+      {id:20260421001,amount:4.50,category:'alimentacion',note:'Agua',date:'2026-04-21'},
+      {id:20260420001,amount:30.11,category:'alimentacion',note:'',date:'2026-04-20'},
+      {id:20260420002,amount:6.45,category:'imprevistos',note:'Arreglar cerradura buzón',date:'2026-04-20'},
+      {id:20260419001,amount:5.00,category:'ocio',note:'Gel carrera 10 k',date:'2026-04-19'},
+      {id:20260419002,amount:40.00,category:'recurrentes',note:'Gasolina',date:'2026-04-19'},
+      {id:20260418001,amount:60.00,category:'ocio',note:'Restaurante Prik Thai',date:'2026-04-18'},
+      {id:20260417001,amount:15.00,category:'recurrentes',note:'Peluquería',date:'2026-04-17'},
+      {id:20260416001,amount:8.00,category:'ocio',note:'Cerveza y patatas después de correr con Gigi',date:'2026-04-16'},
+      {id:20260416002,amount:24.81,category:'alimentacion',note:'',date:'2026-04-16'},
+      {id:20260415001,amount:11.57,category:'alimentacion',note:'',date:'2026-04-15'},
+      {id:20260415002,amount:10.00,category:'imprevistos',note:'Pinza batería',date:'2026-04-15'},
+      {id:20260414001,amount:9.00,category:'ocio',note:'Bocata BeerRunners',date:'2026-04-14'},
+      {id:20260414002,amount:17.00,category:'imprevistos',note:'Mesita sofá',date:'2026-04-14'},
+      {id:20260414003,amount:15.00,category:'recurrentes',note:'Vitamina D',date:'2026-04-14'},
+      {id:20260413001,amount:33.44,category:'alimentacion',note:'',date:'2026-04-13'},
+      {id:20260412001,amount:19.00,category:'ocio',note:'Pollo asado take away',date:'2026-04-12'},
+      {id:20260412002,amount:9.00,category:'alimentacion',note:'',date:'2026-04-12'},
+      {id:20260412003,amount:74.00,category:'imprevistos',note:'Zapatillas Running',date:'2026-04-12'},
+      {id:20260412004,amount:15.00,category:'ocio',note:'Ramen',date:'2026-04-12'},
+      {id:20260412005,amount:7.00,category:'alimentacion',note:'Costillas Bon preu',date:'2026-04-12'},
+      {id:20260411001,amount:20.00,category:'recurrentes',note:'Gasolina',date:'2026-04-11'},
+      {id:20260410001,amount:20.00,category:'recurrentes',note:'Loteria',date:'2026-04-10'},
+      {id:20260409001,amount:36.41,category:'alimentacion',note:'',date:'2026-04-09'},
+      {id:20260409002,amount:2.50,category:'imprevistos',note:'Bote aceite chino',date:'2026-04-09'},
+      {id:20260409003,amount:32.00,category:'imprevistos',note:'Desconectador de batería coche',date:'2026-04-09'},
+      {id:20260408001,amount:12.89,category:'alimentacion',note:'',date:'2026-04-08'},
+      {id:20260406001,amount:4.94,category:'ocio',note:'Forn Sant Salvador',date:'2026-04-06'},
+      {id:20260406002,amount:80.00,category:'imprevistos',note:'Renovación carnet conducir',date:'2026-04-06'},
+      {id:20260406003,amount:10.00,category:'ocio',note:'Kachapurri',date:'2026-04-06'},
+      {id:20260406004,amount:35.70,category:'ocio',note:'',date:'2026-04-06'},
+      {id:20260402001,amount:15.00,category:'recurrentes',note:'Cortar pelo',date:'2026-04-02'},
+      {id:20260402002,amount:70.00,category:'recurrentes',note:'Tres pedidos de suplementos y salud: Shaker HSN → 11,90€ Extracto de brócoli (sulforafano, 3 meses) → 28,90€ Flores de hibisco para té → 29,90€ Total: 70,70€',date:'2026-04-02'}
+    ];
+    var budgets={alimentacion:220,ocio:180,recurrentes:80,imprevistos:100};
+    var fijos=[{id:1,name:'iPhone 15 Pro Max financiación',amount:24.83,category:'recurrentes',startDate:'',endDate:''}];
+    localStorage.setItem('gastos-daniel-v3',JSON.stringify(gastos));
+    localStorage.setItem('budgets-daniel-v3',JSON.stringify(budgets));
+    localStorage.setItem('fijos-daniel-v1',JSON.stringify(fijos));
+    st.textContent='✓ '+gastos.length+' gastos importados correctamente';
+    st.className='status';
+    btn.textContent='✓ Hecho — abre gastos.html';
+    btn.style.background='#1a3320';
+    btn.style.color='#52c98a';
+  } catch(e) {
+    st.textContent='Error: '+e.message;
+    st.className='status err';
+    btn.disabled=false;
+    btn.textContent='Reintentar';
+  }
+}
+</script>
+</body>
+</html>
